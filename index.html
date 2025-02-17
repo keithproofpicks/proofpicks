@@ -22,9 +22,39 @@
             border: none;
             background: transparent;
         }
+        /* Hide Airtable interface elements */
+        .airtable-embed::after {
+            content: "";
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 45px; /* Adjust this value to match your nav bar height */
+            background: white;
+            z-index: 999999;
+        }
     </style>
 </head>
 <body>
-    <iframe class="airtable-embed" src="https://airtable.com/embed/appofQwoKfdX1PGRW/shrlQvrhbPMzPPxeg" frameborder="0"></iframe>
+    <iframe 
+        class="airtable-embed" 
+        src="https://airtable.com/embed/appofQwoKfdX1PGRW/shrlQvrhbPMzPPxeg" 
+        frameborder="0"
+        onload="setTimeout(function() { 
+            var style = document.createElement('style');
+            style.textContent = `
+                /* Hide Airtable UI elements */
+                iframe.airtable-embed {
+                    height: calc(100vh + 45px) !important;
+                }
+                .view-more-button,
+                .fullscreen-button,
+                .airtable-attribution {
+                    display: none !important;
+                }
+            `;
+            this.contentDocument.head.appendChild(style);
+        }, 1000)"
+    ></iframe>
 </body>
 </html>
